@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
+import { cn } from "@/lib/utils";
+import { ViewTransitions } from "next-view-transitions";
+import { NavBar } from "@/components/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,10 +19,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Providers>{children}</Providers>
-      </body>
-    </html>
+    <ViewTransitions>
+      <html lang="en">
+        <body
+          className={cn(
+            "w-dvw min-w-dvw h-dvh min-h-dvh antialiased",
+            inter.className,
+          )}
+        >
+          <Providers>{children}</Providers>
+          <NavBar />
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }
