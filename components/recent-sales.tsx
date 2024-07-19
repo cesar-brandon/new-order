@@ -3,7 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function RecentSales() {
   return (
-    <Card>
+    <Card id="recent-sales">
       <CardHeader>
         <CardTitle>Recent Sales</CardTitle>
       </CardHeader>

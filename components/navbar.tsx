@@ -4,6 +4,7 @@ import { HomeIcon, SearchIcon, BriefcaseIcon } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useState, useEffect } from "react";
 import NavBarItem from "./navbar-item";
+import { ModeToggle } from "./mode-toggle";
 
 export function NavBar() {
   const items = [
@@ -33,7 +34,7 @@ export function NavBar() {
       icon: (
         <Avatar className="w-full h-full">
           <AvatarImage src={""} alt="avatar" />
-          <AvatarFallback>
+          <AvatarFallback className="text-xs">
             {String("Cesar Brandon")
               .split(" ")
               .map((word) => word[0])}
