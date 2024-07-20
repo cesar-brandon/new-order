@@ -16,7 +16,7 @@ export default function ResumenCards() {
 
 export function TotalRevenue() {
   return (
-    <Card>
+    <Card id="total-revenue">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
         <DollarSign className="h-4 w-4 text-muted-foreground" />
@@ -31,7 +31,7 @@ export function TotalRevenue() {
 
 export function Subscriptions() {
   return (
-    <Card>
+    <Card id="subscriptions">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">Subscriptions</CardTitle>
         <Users className="h-4 w-4 text-muted-foreground" />
@@ -46,7 +46,7 @@ export function Subscriptions() {
 
 export function Sales() {
   return (
-    <Card>
+    <Card id="sales">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">Sales</CardTitle>
         <CreditCard className="h-4 w-4 text-muted-foreground" />
@@ -61,7 +61,7 @@ export function Sales() {
 
 export function ActiveNow() {
   return (
-    <Card>
+    <Card id="active-now">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <CardTitle className="text-sm font-medium">Active Now</CardTitle>
         <Activity className="h-4 w-4 text-muted-foreground" />

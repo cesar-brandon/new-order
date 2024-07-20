@@ -1,20 +1,50 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { motion } from "framer-motion";
+import { motion, useAnimationControls } from "framer-motion";
 import { useMotionStore } from "@/store/motion";
 
 const Card = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => {
-  const { scope, constraintsRef } = useMotionStore();
+  const {
+    addControl,
+    controls,
+    constraintsRef,
+    setElementId,
+    currentElementId,
+    setCurrentElementId,
+  } = useMotionStore();
+  const animateControls = useAnimationControls();
+
+  React.useEffect(() => {
+    if (props.id) {
+      addControl(props.id, animateControls);
+      setElementId(props.id);
+    }
+  }, [addControl, animateControls, props.id, setElementId]);
+
+  const cardControls = props.id ? controls[props.id] : undefined;
+  const zIndex = currentElementId === props.id ? 1 : 0;
+
   return (
-    <motion.div id={props.id} drag dragConstraints={constraintsRef} ref={scope}>
+    <motion.div
+      id={props.id}
+      drag
+      onDragStart={() => {
+        animateControls.start({ scale: 1.1 });
+        setCurrentElementId(props.id as string);
+      }}
+      onDragEnd={() => animateControls.start({ scale: 1 })}
+      dragConstraints={constraintsRef}
+      animate={cardControls}
+      style={{ zIndex }}
+    >
       <div
         ref={ref}
         className={cn(
-          "rounded-lg border bg-card text-card-foreground shadow-sm",
+          "rounded-lg border bg-card/30 backdrop-blur-md text-card-foreground shadow-sm",
           className,
         )}
         {...props}
