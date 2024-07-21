@@ -128,8 +128,10 @@ export default function Home() {
           variant="outline"
           onClick={() =>
             moveElementTo({
-              elementId: "recent-sales",
-              direction: "up",
+              elementId: "transactions",
+              // direction: "left",
+              x: -100,
+              y: -100,
             })
           }
         >
@@ -147,12 +149,17 @@ export default function Home() {
           <ScalingIcon className="w-5 h-5" />
         </Button>
       </div>
-      <Maxx
+      <div
         className={cn(
-          "w-24 h-24 fixed -bottom-12 left-24 transition-all duration-300 z-10",
-          isRecording && "-bottom-8",
+          "fixed -bottom-[3.2rem] left-12 flex flex-col gap-4 transition-all duration-300 z-10",
+          isRecording && "-bottom-10",
         )}
-      />
+      >
+        <span className="text-sm bg-primary p-2 rounded-lg">
+          ejemplo: quiero ver mas de cerca las transacciones
+        </span>
+        <Maxx className={"w-24 h-24"} />
+      </div>
     </motion.main>
   );
 }

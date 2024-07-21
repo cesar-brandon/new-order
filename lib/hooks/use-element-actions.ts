@@ -1,5 +1,7 @@
 import { useMotionStore } from "@/store/motion";
 
+//NOTE: Mejorar la funcionalidad de mover
+
 export function useElementActions() {
   const { moveElement, resizeElement } = useMotionStore();
 
@@ -19,7 +21,7 @@ export function useElementActions() {
     if (container && element) {
       const containerRect = container.getBoundingClientRect();
       const elementRect = element.getBoundingClientRect();
-      console.log("container", containerRect, "elemento", elementRect);
+
       let X =
         elementRect.left + (x !== undefined ? x * containerRect.width : 0);
       let Y =
@@ -29,25 +31,27 @@ export function useElementActions() {
         X = (containerRect.width - elementRect.width) / 2;
         Y = (containerRect.height - elementRect.height) / 2;
       }
-      if (direction === "up") Y -= elementRect.height;
-      if (direction === "down") Y += elementRect.height;
-      if (direction === "left") X -= elementRect.width;
-      if (direction === "right") X += elementRect.width;
+      if (direction === "up") {
+        Y -= containerRect.height;
+      }
+      if (direction === "down") Y += containerRect.height;
+      if (direction === "left") X -= containerRect.width;
+      if (direction === "right") X += containerRect.width;
       if (direction === "up-left") {
-        X -= elementRect.width;
-        Y -= elementRect.height;
+        X -= containerRect.width;
+        Y -= containerRect.height;
       }
       if (direction === "up-right") {
-        X += elementRect.width;
-        Y -= elementRect.height;
+        X += containerRect.width;
+        Y -= containerRect.height;
       }
       if (direction === "down-left") {
-        X -= elementRect.width;
-        Y += elementRect.height;
+        X -= containerRect.width;
+        Y += containerRect.height;
       }
       if (direction === "down-right") {
-        X += elementRect.width;
-        Y += elementRect.height;
+        X += containerRect.width;
+        Y += containerRect.height;
       }
 
       X = Math.max(0, Math.min(X, containerRect.width - elementRect.width));
