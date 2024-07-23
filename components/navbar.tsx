@@ -1,10 +1,15 @@
 "use client";
 
-import { HomeIcon, SearchIcon, BriefcaseIcon } from "lucide-react";
+import {
+  HomeIcon,
+  PickaxeIcon,
+  GamepadIcon,
+  Gamepad2Icon,
+  BadgeHelpIcon,
+} from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useState, useEffect } from "react";
 import NavBarItem from "./navbar-item";
-import { ModeToggle } from "./mode-toggle";
 
 export function NavBar() {
   const items = [
@@ -14,9 +19,9 @@ export function NavBar() {
       icon: <HomeIcon />,
     },
     {
-      content: "Explorar",
-      href: "/explore",
-      icon: <SearchIcon className="stroke-current" />,
+      content: "Construir",
+      href: "/build",
+      icon: <PickaxeIcon />,
     },
     // {
     //   content: "Chat",
@@ -24,9 +29,9 @@ export function NavBar() {
     //   icon: <ChatBubbleOvalLeftEllipsisIcon />,
     // },
     {
-      content: "Aplicados",
-      href: "/apply",
-      icon: <BriefcaseIcon />,
+      content: "Instrucciones",
+      href: "/instructions",
+      icon: <BadgeHelpIcon />,
     },
     {
       content: "Perfil",

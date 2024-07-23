@@ -3,7 +3,7 @@ import { useMotionStore } from "@/store/motion";
 //NOTE: Mejorar la funcionalidad de mover
 
 export function useElementActions() {
-  const { moveElement, resizeElement } = useMotionStore();
+  const { controls } = useMotionStore();
 
   const moveElementTo = ({
     elementId,
@@ -16,6 +16,7 @@ export function useElementActions() {
     y?: number;
     direction?: string;
   }) => {
+    const control = controls[elementId];
     const container = document.getElementById("container");
     const element = document.getElementById(elementId);
     if (container && element) {
@@ -57,7 +58,14 @@ export function useElementActions() {
       X = Math.max(0, Math.min(X, containerRect.width - elementRect.width));
       Y = Math.max(0, Math.min(Y, containerRect.height - elementRect.height));
 
-      moveElement(elementId, X, Y);
+      if (control) {
+        control.start({
+          x: X,
+          y: Y,
+          transition: { duration: 0.3 },
+          zIndex: 1,
+        });
+      }
     }
   };
 
@@ -68,6 +76,7 @@ export function useElementActions() {
     elementId: string;
     size: string;
   }) => {
+    const control = controls[elementId];
     const element = document.getElementById(elementId);
     if (element) {
       const scale = (() => {
@@ -85,7 +94,13 @@ export function useElementActions() {
         }
       })();
 
-      resizeElement(elementId, scale);
+      if (control) {
+        control.start({
+          scale,
+          transition: { duration: 0.3 },
+          zIndex: 1,
+        });
+      }
     }
   };
 
