@@ -1,4 +1,28 @@
-export function Maxx({ className }: { className?: string }) {
+import { cn } from "@/lib/utils";
+
+export function Pet({
+  className,
+  isRecording,
+}: {
+  className?: string;
+  isRecording: boolean;
+}) {
+  return (
+    <div
+      className={cn(
+        "fixed -bottom-[3.2rem] left-12 flex flex-col gap-4 transition-all duration-300 z-10",
+        isRecording && "-bottom-10",
+      )}
+    >
+      <span className="text-sm bg-accent p-2 px-4 rounded-lg">
+        ejemplo: Apaga las luces
+      </span>
+      <Maxx className={"w-24 h-24"} />
+    </div>
+  );
+}
+
+function Maxx({ className }: { className?: string }) {
   return (
     <svg
       width="95"

@@ -1,34 +1,34 @@
 "use client";
-import { ModeToggle } from "@/components/mode-toggle";
-import { Maxx } from "@/components/pets";
-import { cn } from "@/lib/utils";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { getAnswer } from "./actions";
+import "../globals.css";
 import { useTheme } from "next-themes";
-import { motion } from "framer-motion";
-import RecentSales from "@/components/recent-sales";
-import TransactionList from "@/components/transactions";
-import { TrendingChart } from "@/components/trending";
-import { Button } from "@/components/ui/button";
-import ResumenCards from "@/components/resumen-cards";
 import { useMotionStore } from "@/store/motion";
-import { HandIcon, ScalingIcon, SpeechIcon } from "lucide-react";
-import { OrderTypes } from "@/lib/types";
 import { useElementActions } from "@/lib/hooks/use-element-actions";
+import { getAnswer } from "../actions";
+import { OrderTypes } from "@/config";
+import { Pet } from "@/components/pet";
+import { TestInstructions } from "@/components/test-instructions";
+import { cn } from "@/lib/utils";
+import { useRecognitionStore } from "@/store/recognition";
 
 const recognition = new window.webkitSpeechRecognition();
 
 recognition.continuous = true;
 recognition.lang = "es-ES";
 
-export default function Home() {
+export default function UserLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [order, setOrder] = useState<string>("");
+  const { setIsRecording: setIsRecordingStore, setOrder: setOrderStore } =
+    useRecognitionStore();
 
   const { setTheme } = useTheme();
 
-  const constraintsRef = useRef(null);
-  const { setConstraintsRef, elementIds } = useMotionStore();
+  const { elementIds } = useMotionStore();
   const { moveElementTo, resizeElementTo } = useElementActions();
 
   const audio = useMemo(() => new Audio("/audio/listening.mp3"), []);
@@ -36,6 +36,7 @@ export default function Home() {
   const handleStartRecording = useCallback(() => {
     recognition.start();
     setIsRecording(true);
+    setIsRecordingStore(true);
     audio.play();
 
     recognition.onresult = (event) => {
@@ -44,8 +45,9 @@ export default function Home() {
         .join("");
 
       setOrder(order);
+      setOrderStore(order);
     };
-  }, [audio]);
+  }, [audio, setOrderStore, setIsRecordingStore]);
 
   const getOrder = useCallback(
     async (order: string) => {
@@ -79,28 +81,17 @@ export default function Home() {
     }
   }, [order, getOrder]);
 
-  useEffect(() => {
-    setConstraintsRef(constraintsRef.current);
-  }, [setConstraintsRef]);
-
   function handleStopRecording() {
     setIsRecording(false);
+    setIsRecordingStore(false);
     recognition.stop();
   }
 
   return (
-    <motion.main
-      id="container"
-      className="flex w-dvw h-full p-10 pt-[4.4rem] overflow-hidden flex-1 flex-col gap-4 md:gap-8"
-      ref={constraintsRef}
-    >
-      <ResumenCards />
-      <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
-        <RecentSales />
-        <TransactionList />
-        <TrendingChart />
-      </div>
-      <p>{order}</p>
+    <>
+      {children}
+      <Pet isRecording={isRecording} />
+      <TestInstructions getOrder={getOrder} />
       <div
         className={cn(
           "fixed bottom-4 right-4 w-24 h-24 bg-foreground rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 z-10",
@@ -116,50 +107,6 @@ export default function Home() {
           isRecording && "block",
         )}
       />
-      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 flex items-center gap-4 z-10">
-        <Button
-          variant="outline"
-          onClick={() => getOrder("quiero ver mas de cerca las transacciones")}
-        >
-          <SpeechIcon className="w-5 h-5" />
-        </Button>
-        <ModeToggle />
-        <Button
-          variant="outline"
-          onClick={() =>
-            moveElementTo({
-              elementId: "transactions",
-              // direction: "left",
-              x: -100,
-              y: -100,
-            })
-          }
-        >
-          <HandIcon className="w-5 h-5" />
-        </Button>
-        <Button
-          variant="outline"
-          onClick={() =>
-            resizeElementTo({
-              elementId: "transactions",
-              size: "xl",
-            })
-          }
-        >
-          <ScalingIcon className="w-5 h-5" />
-        </Button>
-      </div>
-      <div
-        className={cn(
-          "fixed -bottom-[3.2rem] left-12 flex flex-col gap-4 transition-all duration-300 z-10",
-          isRecording && "-bottom-10",
-        )}
-      >
-        <span className="text-sm bg-primary p-2 rounded-lg">
-          ejemplo: quiero ver mas de cerca las transacciones
-        </span>
-        <Maxx className={"w-24 h-24"} />
-      </div>
-    </motion.main>
+    </>
   );
 }

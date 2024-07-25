@@ -2,7 +2,7 @@
 import { generateObject } from "ai";
 import { google } from "@ai-sdk/google";
 import { z } from "zod";
-import { OrderTypes } from "@/lib/types";
+import { OrderTypes } from "@/config";
 
 export async function getAnswer(order: string, elementIds: string[]) {
   const elementIdsString = elementIds.join(",");

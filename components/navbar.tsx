@@ -6,6 +6,7 @@ import {
   GamepadIcon,
   Gamepad2Icon,
   BadgeHelpIcon,
+  HandIcon,
 } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useState, useEffect } from "react";
@@ -14,38 +15,14 @@ import NavBarItem from "./navbar-item";
 export function NavBar() {
   const items = [
     {
-      content: "Inicio",
+      content: "Mover",
       href: "/",
-      icon: <HomeIcon />,
+      icon: <HandIcon />,
     },
     {
       content: "Construir",
       href: "/build",
       icon: <PickaxeIcon />,
-    },
-    // {
-    //   content: "Chat",
-    //   href: "/messages",
-    //   icon: <ChatBubbleOvalLeftEllipsisIcon />,
-    // },
-    {
-      content: "Instrucciones",
-      href: "/instructions",
-      icon: <BadgeHelpIcon />,
-    },
-    {
-      content: "Perfil",
-      href: `/cesar-brandon`,
-      icon: (
-        <Avatar className="w-full h-full">
-          <AvatarImage src={""} alt="avatar" />
-          <AvatarFallback className="text-xs">
-            {String("Cesar Brandon")
-              .split(" ")
-              .map((word) => word[0])}
-          </AvatarFallback>
-        </Avatar>
-      ),
     },
   ];
   const [isHidden, setIsHidden] = useState(false);
