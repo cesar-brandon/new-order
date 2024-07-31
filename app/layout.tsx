@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, VT323 } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { cn } from "@/lib/utils";
@@ -7,6 +7,11 @@ import { ViewTransitions } from "next-view-transitions";
 import { NavBar } from "@/components/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
+const mono = VT323({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,11 +29,11 @@ export default function RootLayout({
         <body
           className={cn(
             "w-dvw min-w-dvw h-dvh min-h-dvh antialiased",
-            inter.className,
+            mono.className,
           )}
         >
           <Providers>{children}</Providers>
-          <NavBar />
+          {/* <NavBar /> */}
         </body>
       </html>
     </ViewTransitions>

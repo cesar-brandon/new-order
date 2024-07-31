@@ -10,7 +10,10 @@ export default function Page() {
   const { order } = useRecognitionStore();
 
   return (
-    <main className="flex flex-col items-center justify-center h-full gap-4">
+    <main
+      id="container"
+      className="flex flex-col items-center justify-center h-full gap-4"
+    >
       {order}
       <form
         onSubmit={async (e) => {

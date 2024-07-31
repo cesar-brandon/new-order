@@ -21,7 +21,7 @@ export default function Home() {
   return (
     <motion.main
       id="container"
-      className="flex w-dvw h-full p-10 pt-[4.4rem] overflow-hidden flex-1 flex-col gap-4 md:gap-8"
+      className="flex w-dvw h-full p-10 overflow-hidden flex-1 flex-col gap-4 md:gap-8"
       ref={constraintsRef}
     >
       <ResumenCards />

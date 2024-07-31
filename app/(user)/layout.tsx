@@ -10,6 +10,9 @@ import { Pet } from "@/components/pet";
 import { TestInstructions } from "@/components/test-instructions";
 import { cn } from "@/lib/utils";
 import { useRecognitionStore } from "@/store/recognition";
+import { Link } from "next-view-transitions";
+import { HandIcon, PickaxeIcon } from "lucide-react";
+import { usePathname } from "next/navigation";
 
 const recognition = new window.webkitSpeechRecognition();
 
@@ -25,6 +28,8 @@ export default function UserLayout({
   const [order, setOrder] = useState<string>("");
   const { setIsRecording: setIsRecordingStore, setOrder: setOrderStore } =
     useRecognitionStore();
+
+  const pathname = usePathname();
 
   const { setTheme } = useTheme();
 
@@ -88,25 +93,34 @@ export default function UserLayout({
   }
 
   return (
-    <>
+    <div id="monitor" className="relative h-full">
       {children}
-      <Pet isRecording={isRecording} />
-      <TestInstructions getOrder={getOrder} />
+      {/* <Pet isRecording={isRecording} /> */}
+      {/* <TestInstructions getOrder={getOrder} /> */}
       <div
         className={cn(
-          "fixed bottom-4 right-4 w-24 h-24 bg-foreground rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 z-10",
-          isRecording ? "bg-destructive" : "bg-primary",
+          "fixed bottom-32 right-8 w-10 h-10 border-2 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 z-10",
+          isRecording ? "border-destructive" : "border-accent",
         )}
         onClick={() =>
           isRecording ? handleStopRecording() : handleStartRecording()
         }
-      />
-      <div
-        className={cn(
-          "fixed hidden top-4 right-4 w-4 h-4 rounded-full bg-green-400",
-          isRecording && "block",
-        )}
-      />
-    </>
+      >
+        <span
+          className={cn(
+            "w-8 h-8 bg-accent rounded-full",
+            isRecording && "bg-destructive",
+          )}
+        />
+      </div>
+      <Link href={pathname === "/build" ? "/" : "/build"}>
+        <div
+          className="button1 fixed bottom-8 right-8 w-24 h-24 bg-primary rounded-full 
+          flex items-center justify-center cursor-pointer transition-all duration-300 z-10"
+        >
+          <HandIcon className="stroke-accent" />
+        </div>
+      </Link>
+    </div>
   );
 }
