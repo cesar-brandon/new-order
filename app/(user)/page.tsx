@@ -7,9 +7,10 @@ import TransactionList from "@/components/examples/transactions";
 import ResumenCards from "@/components/examples/resumen-cards";
 import TrendingChart from "@/components/examples/trending";
 import { useRecognitionStore } from "@/store/recognition";
+import { AudioSpectrum } from "@/components/AudioSpectrum";
 
 export default function Home() {
-  const { order } = useRecognitionStore();
+  const { order, isRecording } = useRecognitionStore();
 
   const constraintsRef = useRef(null);
   const { setConstraintsRef } = useMotionStore();
@@ -21,7 +22,7 @@ export default function Home() {
   return (
     <motion.main
       id="container"
-      className="flex w-dvw h-full p-10 overflow-hidden flex-1 flex-col gap-4 md:gap-8"
+      className="relative flex w-dvw h-full p-10 overflow-hidden flex-1 flex-col gap-4 md:gap-8"
       ref={constraintsRef}
     >
       <ResumenCards />
@@ -31,6 +32,8 @@ export default function Home() {
         <TrendingChart />
       </div>
       <p>{order}</p>
+
+      {isRecording && <AudioSpectrum className="absolute bottom-10 left-10" />}
     </motion.main>
   );
 }

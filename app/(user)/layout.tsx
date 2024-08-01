@@ -36,12 +36,14 @@ export default function UserLayout({
   const { elementIds } = useMotionStore();
   const { moveElementTo, resizeElementTo } = useElementActions();
 
-  const audio = useMemo(() => new Audio("/audio/listening.mp3"), []);
+  const audio = useMemo(() => new Audio("/audio/button-click.wav"), []);
 
   const handleStartRecording = useCallback(() => {
     recognition.start();
     setIsRecording(true);
     setIsRecordingStore(true);
+    audio.pause();
+    audio.currentTime = 0;
     audio.play();
 
     recognition.onresult = (event) => {
@@ -90,6 +92,9 @@ export default function UserLayout({
     setIsRecording(false);
     setIsRecordingStore(false);
     recognition.stop();
+    audio.pause();
+    audio.currentTime = 0;
+    audio.play();
   }
 
   return (
@@ -98,27 +103,25 @@ export default function UserLayout({
       {/* <Pet isRecording={isRecording} /> */}
       {/* <TestInstructions getOrder={getOrder} /> */}
       <div
-        className={cn(
-          "fixed bottom-32 right-8 w-10 h-10 border-2 rounded-full flex items-center justify-center cursor-pointer transition-all duration-300 z-10",
-          isRecording ? "border-destructive" : "border-accent",
-        )}
+        className="button2 fixed bottom-32 right-8 w-10 h-10 flex items-center justify-center
+         rounded-full bg-primary cursor-pointer transition-all duration-300 z-10"
         onClick={() =>
           isRecording ? handleStopRecording() : handleStartRecording()
         }
+      />
+      <Link
+        href={pathname === "/build" ? "/" : "/build"}
+        onClick={() => {
+          audio.pause();
+          audio.currentTime = 0;
+          audio.play();
+        }}
       >
-        <span
-          className={cn(
-            "w-8 h-8 bg-accent rounded-full",
-            isRecording && "bg-destructive",
-          )}
-        />
-      </div>
-      <Link href={pathname === "/build" ? "/" : "/build"}>
         <div
-          className="button1 fixed bottom-8 right-8 w-24 h-24 bg-primary rounded-full 
-          flex items-center justify-center cursor-pointer transition-all duration-300 z-10"
+          className="button1 fixed bottom-8 right-8 w-24 h-24 flex items-center justify-center
+          bg-primary rounded-full cursor-pointer transition-all duration-300 z-10"
         >
-          <HandIcon className="stroke-accent" />
+          <HandIcon className="svg1 stroke-accent-foreground/60 dark:stroke-accent/60" />
         </div>
       </Link>
     </div>
